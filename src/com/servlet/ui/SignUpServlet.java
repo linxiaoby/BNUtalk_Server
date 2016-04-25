@@ -31,8 +31,7 @@ public class SignUpServlet extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public SignUpServlet() {
-		super();
-		// TODO Auto-generated constructor stub
+		System.out.println("SignUpServlet constructer");
 	}
 
 	/**
