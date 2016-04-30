@@ -49,7 +49,5 @@ public class ServThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-		
-		
 	}
 }
