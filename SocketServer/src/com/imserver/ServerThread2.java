@@ -7,8 +7,12 @@ import java.io.OutputStream;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.Iterator;
-import java.lang.String;
-public class ServerThread implements Runnable {
+
+/*
+ * Author:linxiaoby 2016/04/30 
+ * 功能：循环读取客户端发送来的聊天消息，并发送给对方好友
+ */
+public class ServerThread2 implements Runnable {
 	// 定义当前线程所处理的Socket
 	private Socket socket = null;
 	// 该线程所处理的Socket所对应的输入流
@@ -17,44 +21,45 @@ public class ServerThread implements Runnable {
 	private String sendToUid;
 	private OutputStream os;
 
-	public ServerThread(Socket socket) throws IOException {
+	public ServerThread2(Socket socket) throws IOException {
 		this.socket = socket;
 		// 初始化该Socket对应的输入流
 		br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 		uid = br.readLine();
 	}
-
+	
+/*run方法
+ *读取客户端消息：先读取消息报头，再一次性读取消息正文
+ *br按行读取，用户读取消息报头,isAll用于一次性读取消息正文，消息正文可以包含回车和换行
+ */
 	@Override
 	public void run() {
 		try {
 			// 把<uid,socket>键值对加入到hashmap中
 			MyServer.socketMap.put(uid, socket);
+			System.out.println("客户端的uid是"+uid);
 			String content = null;
-			// 获取sendToUid,sendToUid被封装在消息数据报的第一行
-
 			// 采用循环不断从Socket中读取客户端发送过来的数据 ,发送到指定用户
-			while ((content = readFromClient()) != null) {
-
-				System.out.println("content值为" + content);
-				if (content.length() >= 10 && content.substring(0, 9).equals("sendToUid")) {
+			while (true) {
+				content = br.readLine();
+				if (content != null) {
 					System.out.println("content.substring(0, 9)" + content.substring(0, 9));
 					sendToUid = content.substring(9, 21);
-					System.out.println("sendToUid为" + sendToUid);
+					System.out.println("uid是" + uid + "	sendToUid为" + sendToUid);
+
 					Socket sendToSocket = MyServer.socketMap.get(sendToUid);
-					if (sendToSocket != null)
+					if (sendToSocket != null) {
 						os = sendToSocket.getOutputStream();
-				}
-				// 获取uid等于sendToUid的用户socket
-				else {
-					if (os != null) {
-						System.out.println("服务端将消息：" + content + " 写进输出流");
-						os.write((content + "\n").getBytes("utf-8"));
+						InputStream isAll = socket.getInputStream();
+						byte[] b = new byte[1000];//暂定1000个字节，超过要出事儿，记得回来改
+						isAll.read(b);
+						System.out.println(uid + "发送的消息是" + new String(b));
+						os.write(b);
 						os.flush();
-					}
+					} else
+						System.out.println("对方好友不在线，消息不能发送");
 				}
-
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,7 +67,6 @@ public class ServerThread implements Runnable {
 
 	/**
 	 * 定义读取客户端数据的方法
-	 * 
 	 * @return
 	 */
 	private String readFromClient() {

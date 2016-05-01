@@ -23,7 +23,7 @@ public class MyServer {
             System.out.println("有客户端连接进来！,共有"+cnt+"个客户端在线");  
             socketList.add(socket);
             // 每当客户端连接后启动一条ServerThread线程为该客户端服务  
-            new Thread(new ServerThread(socket)).start();  
+            new Thread(new ServerThread2(socket)).start();  
         }  
     }  
   
