@@ -1,14 +1,16 @@
-package com.imserver;
+package com.bnutalk.socket;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * Created by huangtianyous on 2016/4/9.
  */
-public class MsgEntity {
+public class MsgEntity implements Serializable{
+	private static final long serialVersionUID=-3982748458049500750L;
 	public static final int TYPE_RECEIVED = 0;
 	public static final int TYPE_SENT = 1;
 	private String fromUid, sendToUid, time;
@@ -16,6 +18,7 @@ public class MsgEntity {
 	private int type;
 
 	public MsgEntity() {
+	
 	}
 
 	public MsgEntity(String content, int type) {
@@ -58,13 +61,12 @@ public class MsgEntity {
  * @param bytes
  * @return
  */
-	public static Object ByteToObject(byte[] bytes) {
+	public static  java.lang.Object ByteToObject(byte[] bytes) {
 		Object obj = null;
 		try {
 			// bytearray to object
 			ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
 			ObjectInputStream oi = new ObjectInputStream(bi);
-
 			obj = oi.readObject();
 			bi.close();
 			oi.close();
