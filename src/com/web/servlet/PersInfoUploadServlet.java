@@ -1,4 +1,4 @@
-package com.servlet.ui;
+package com.web.servlet;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;

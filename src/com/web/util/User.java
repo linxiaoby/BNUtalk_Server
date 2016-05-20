@@ -1,4 +1,4 @@
-package com.servlet.ui;
+package com.web.util;
 
 public class User {
 	private String strUid;

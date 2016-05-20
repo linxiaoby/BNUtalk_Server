@@ -1,4 +1,4 @@
-package com.servlet.ui;  
+package com.web.servlet;  
 import java.io.File;  
 import java.io.FileOutputStream;  
 import java.io.IOException;

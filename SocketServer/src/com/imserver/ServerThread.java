@@ -1,5 +1,9 @@
 package com.imserver;
-
+/**
+ * Created On:2016/04/30
+ * Author:linxiaobai 
+ * 
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,6 +34,7 @@ public class ServerThread implements Runnable {
 			// 把<uid,socket>键值对加入到hashmap中
 			MyServer.socketMap.put(uid, socket);
 			String content = null;
+			String fromUid=null;
 			// 获取sendToUid,sendToUid被封装在消息数据报的第一行
 
 			// 采用循环不断从Socket中读取客户端发送过来的数据 ,发送到指定用户
@@ -38,11 +43,24 @@ public class ServerThread implements Runnable {
 				System.out.println("content值为" + content);
 				if (content.length() >= 10 && content.substring(0, 9).equals("sendToUid")) {
 					System.out.println("content.substring(0, 9)" + content.substring(0, 9));
+					
 					sendToUid = content.substring(9, 21);
 					System.out.println("sendToUid为" + sendToUid);
+					
 					Socket sendToSocket = MyServer.socketMap.get(sendToUid);
 					if (sendToSocket != null)
+					{
 						os = sendToSocket.getOutputStream();
+						if(os!=null)
+						{
+							
+							
+						}
+					}
+					else//if friend is not online,save messge into database
+					{
+						
+					}
 				}
 				// 获取uid等于sendToUid的用户socket
 				else {

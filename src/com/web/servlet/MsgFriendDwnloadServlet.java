@@ -1,4 +1,4 @@
-package com.servlet.ui;
+package com.web.servlet;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import com.google.gson.Gson;
+import com.web.util.User;
 
 import sun.misc.BASE64Encoder;
 
