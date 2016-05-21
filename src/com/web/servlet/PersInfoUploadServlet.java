@@ -1,4 +1,4 @@
-package com.servlet.ui;
+package com.web.servlet;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -30,15 +30,15 @@ public class PersInfoUploadServlet extends HttpServlet {
 		System.out.println("PersInfoUploadServlet doGet is called");
 		String strUid = request.getParameter("strUid");
 		String strPasswd = request.getParameter("strPasswd");
-		String strSex = request.getParameter("strSex");
+		int sex=Integer.valueOf(request.getParameter("sex"));
 		String strNickName = request.getParameter("strNickName");
-		String strAge = request.getParameter("strAge");
+		int age = Integer.valueOf(request.getParameter("age"));
 		String strFaculty = request.getParameter("strFaculty");
 		String strNationality = request.getParameter("strNationality");
 		String strMother = request.getParameter("strMother");
 		String strLike = request.getParameter("strLike");
 
-		System.out.println(strUid + " " + strPasswd + " " + strSex + " " + strNickName + " " + strAge + " " + strFaculty
+		System.out.println(strUid + " " + strPasswd + " " + sex + " " + strNickName + " " + age + " " + strFaculty
 				+ " " + strNationality + " " + strMother + " " + strLike);
 
 		// 数据信息存到数据库 insert into 表名(列名) values(值1，值2...)
@@ -52,9 +52,9 @@ public class PersInfoUploadServlet extends HttpServlet {
 			PreparedStatement ps = conn.prepareStatement(asql);
 			ps.setString(1, strUid);
 			ps.setString(2, strPasswd);
-			ps.setString(3, strSex);
+			ps.setInt(3, sex);
 			ps.setString(4, strNickName);
-			ps.setString(5, strAge);
+			ps.setInt(5, age);
 			ps.setString(6, strFaculty);
 			ps.setString(7, strNationality);
 			ps.setString(8, strMother);

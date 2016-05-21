@@ -38,19 +38,30 @@ public class ServerThread2 implements Runnable {
 			// 把<uid,socket>键值对加入到hashmap中
 			MyServer.socketMap.put(uid, socket);
 			System.out.println("客户端的uid是"+uid);
+			String fromUid=uid;
 			String content = null;
 			// 采用循环不断从Socket中读取客户端发送过来的数据 ,发送到指定用户
 			while (true) {
 				content = br.readLine();
 				if (content != null) {
-					System.out.println("content.substring(0, 9)" + content.substring(0, 9));
-					sendToUid = content.substring(9, 21);
-					System.out.println("uid是" + uid + "	sendToUid为" + sendToUid);
-
+					//get the sendToUid and date
+					sendToUid=br.readLine();
+					String date=br.readLine();
+					
+//					System.out.println("content.substring(0, 9)" + content.substring(0, 9));
+//					sendToUid = content.substring(9, 21);
+//					System.out.println("uid是" + uid + "	sendToUid为" + sendToUid);
+					System.out.println("fromUid是" + uid + "	sendToUid为" + sendToUid+"date是"+date);
+					
 					Socket sendToSocket = MyServer.socketMap.get(sendToUid);
 					if (sendToSocket != null) {
 						os = sendToSocket.getOutputStream();
 						InputStream isAll = socket.getInputStream();
+						
+						os.write((fromUid+"\r\n").getBytes());
+						os.write((sendToUid+"\r\n").getBytes());
+						os.write((date+"\r\n").getBytes());
+						
 						byte[] b = new byte[1000];//暂定1000个字节，超过要出事儿，记得回来改
 						isAll.read(b);
 						System.out.println(uid + "发送的消息是" + new String(b));
