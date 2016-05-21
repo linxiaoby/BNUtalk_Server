@@ -14,7 +14,11 @@ import com.google.gson.Gson;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.web.util.User;
 import com.web.util.UserEntity;
+<<<<<<< HEAD
 import com.web.util.UserUtil;
+=======
+import com.web.util.getAllUser;
+>>>>>>> origin/master
 
 import java.util.ArrayList;
 /**
@@ -34,7 +38,11 @@ public class GetAllUserServlet extends HttpServlet {
 		java.util.List<UserEntity> list = new ArrayList<UserEntity>();
 		String uid=request.getParameter("uid");
 		
+<<<<<<< HEAD
 		new UserUtil().getAlllUserData(uid, list);
+=======
+		new getAllUser().getAlllUserData(uid, list);
+>>>>>>> origin/master
 		Gson json=new Gson();
 		String strJson=json.toJson(list);
 		
